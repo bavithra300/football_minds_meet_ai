@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Login - Football Scouting System{% endblock %}
+
+{% block content %}
+<div class="login-wrapper">
+    <div class="glass-panel login-panel slide-up">
+        <div class="login-header">
+            <i class="fa-solid fa-futbol login-icon bounce"></i>
+            <h2>Scouting<span>AI</span></h2>
+            <p>Sign in to access advanced player & coach intelligence</p>
+        </div>
+
+        <form id="loginForm" class="login-form">
+            <div class="input-group">
+                <i class="fa-solid fa-user"></i>
+                <input type="text" id="username" name="username" placeholder="Username" required autocomplete="off">
+            </div>
+            <div class="input-group">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" id="password" name="password" placeholder="Password" required>
+            </div>
+
+            <div id="loginMessage" class="message-box hidden"></div>
+
+            <button type="submit" class="btn btn-primary btn-block">
+                <span>Login</span> <i class="fa-solid fa-arrow-right"></i>
+            </button>
+        </form>
+
+        <div class="demo-hint" style="text-align: left; padding: 1rem;">
+            <i class="fa-solid fa-lightbulb"></i> <strong>Hackathon Demo Accounts:</strong><br>
+            <ul style="list-style: none; margin-top: 5px; padding-left: 0;">
+                <li><i class="fa-solid fa-user-shield"></i> <code>admin</code> / <code>admin</code></li>
+                <li><i class="fa-solid fa-user-tie"></i> <code>coach</code> / <code>coach123</code></li>
+                <li><i class="fa-solid fa-eye"></i> <code>scout</code> / <code>scout123</code></li>
+                <li><i class="fa-solid fa-user"></i> <code>player</code> / <code>player123</code></li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

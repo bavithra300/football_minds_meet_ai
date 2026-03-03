@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Football Scouting System{% endblock %}</title>
+    <!-- Modern Font: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=1.5">
+</head>
+
+<body>
+    <!-- Premium Background Effects -->
+    <div class="bg-shape bg-shape-1"></div>
+    <div class="bg-shape bg-shape-2"></div>
+
+    <!-- Navigation Bar -->
+    {% if session.get('user') %}
+    <nav class="navbar slide-down">
+        <div class="nav-brand">
+            <i class="fa-solid fa-futbol"></i> Scouting<span>AI</span>
+        </div>
+        <div class="nav-links">
+            <a href="{{ url_for('dashboard') }}" class="nav-link"><i class="fa-solid fa-house"></i> Dashboard</a>
+            <a href="{{ url_for('logout') }}" class="nav-link nav-btn"><i class="fa-solid fa-right-from-bracket"></i>
+                Logout</a>
+        </div>
+    </nav>
+    {% endif %}
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Custom Scripts -->
+    <script src="{{ url_for('static', filename='js/main.js') }}?v=1.5"></script>
+    {% block scripts %}{% endblock %}
+</body>
+
+</html>

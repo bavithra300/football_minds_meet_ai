@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block title %}Player Analysis - Football Scouting System{% endblock %}
+
+{% block content %}
+<div class="module-container slide-up">
+    <div class="module-header">
+        <a href="{{ url_for('dashboard') }}" class="back-btn"><i class="fa-solid fa-arrow-left"></i></a>
+        <h2><i class="fa-solid fa-users"></i> Player Recommendation AI</h2>
+    </div>
+
+    <!-- The Form -->
+    <div class="form-panel" id="playerFormPanel">
+        <form id="playerForm">
+            <div class="form-grid">
+                <div class="input-group">
+                    <label>Position</label>
+                    <select name="position" required>
+                        <option value="">Select Position</option>
+                        <option value="Goalkeeper">Goalkeeper</option>
+                        <option value="Defender">Defender</option>
+                        <option value="Midfielder">Midfielder</option>
+                        <option value="Forward">Forward</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label>Playing Style</label>
+                    <select name="style" required>
+                        <option value="">Select Tactical Style</option>
+                        <optgroup label="Goalkeeper">
+                            <option value="Sweeper">Sweeper</option>
+                            <option value="Shot Stopper">Shot Stopper</option>
+                            <option value="Ball Playing">Ball Playing</option>
+                        </optgroup>
+                        <optgroup label="Defender">
+                            <option value="Defensive">Defensive</option>
+                            <option value="Build-up">Build-up</option>
+                            <option value="Aggressive">Aggressive</option>
+                        </optgroup>
+                        <optgroup label="Midfielder">
+                            <option value="Possession">Possession</option>
+                            <option value="Creative">Creative</option>
+                            <option value="Box-to-Box">Box-to-Box</option>
+                        </optgroup>
+                        <optgroup label="Forward">
+                            <option value="Attacking">Attacking</option>
+                            <option value="Counter">Counter</option>
+                            <option value="Clinical">Clinical</option>
+                        </optgroup>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label>Age Range</label>
+                    <input type="text" name="age_range" placeholder="e.g. 20-25" required>
+                </div>
+
+                <div class="input-group">
+                    <label>Experience (Years)</label>
+                    <input type="text" name="exp_range" placeholder="e.g. 3-5" required>
+                </div>
+            </div>
+
+            <div id="formError" class="message-box message-error hidden"></div>
+
+            <button type="submit" class="btn btn-primary btn-large mt-4" id="submitBtn">
+                <i class="fa-solid fa-brain"></i> Generate AI Recommendations
+            </button>
+        </form>
+    </div>
+
+    <!-- Loading State -->
+    <div id="loadingPanel" class="loading-panel hidden">
+        <div class="spinner"></div>
+        <h3>Google Gemini is analyzing global football data...</h3>
+        <p>Fact-checking matches, filtering by strict criteria, and scoring candidates.</p>
+    </div>
+
+    <!-- Results Panel -->
+    <div id="resultsPanel" class="results-panel hidden">
+        <div class="results-header">
+            <h3><i class="fa-solid fa-trophy text-gold"></i> AI Top 5 Global Targets</h3>
+            <button class="btn btn-outline btn-small" onclick="resetForm('playerFormPanel', 'resultsPanel')">New
+                Search</button>
+        </div>
+
+        <div id="aiCandidates" class="candidates-grid">
+            <!-- Populated by JS -->
+        </div>
+
+        <div id="localMatchesSection" class="hidden">
+            <div class="results-header mt-5">
+                <h3><i class="fa-solid fa-database text-green"></i> Local Database Matches</h3>
+            </div>
+            <div id="localCandidates" class="candidates-grid">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Template for candidate card -->
+<template id="candidateCardTemplate">
+    <div class="candidate-card fade-in">
+        <div class="card-header">
+            <div class="rank-badge">#<span class="rank-num">1</span></div>
+            <div class="score-ring">
+                <svg>
+                    <circle cx="25" cy="25" r="20"></circle>
+                    <circle class="score-circle" cx="25" cy="25" r="20"></circle>
+                </svg>
+                <div class="score-num">85</div>
+            </div>
+        </div>
+        <div class="card-profile">
+            <!-- Generic silhouette for web scraping output -->
+            <img src="{{ url_for('static', filename='img/default_avatar.png') }}" alt="Profile" class="profile-img"
+                onerror="this.src='https://ui-avatars.com/api/?name=Player&background=random'">
+            <h4 class="cand-name">Player Name</h4>
+            <span class="cand-club"><i class="fa-solid fa-shield-halved"></i> <span>Club Name</span></span>
+        </div>
+        <div class="card-stats">
+            <div class="stat"><span class="label">Matches</span><span class="value cand-matches">0</span></div>
+            <div class="stat"><span class="label">Strength</span><span class="value cand-strength">Passing</span></div>
+        </div>
+        <div class="card-analysis">
+            <h5><i class="fa-solid fa-chart-line"></i> Performance</h5>
+            <p class="cand-perf">Good overall stats.</p>
+        </div>
+        <div class="card-justification">
+            <h5><i class="fa-solid fa-user-tie"></i> Coach Note</h5>
+            <p class="cand-just">Fits tactical system well.</p>
+        </div>
+    </div>
+</template>
+{% endblock %}

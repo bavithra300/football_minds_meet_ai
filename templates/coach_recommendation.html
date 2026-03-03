@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block title %}Coach Analysis - Football Scouting System{% endblock %}
+
+{% block content %}
+<div class="module-container slide-up">
+    <div class="module-header">
+        <a href="{{ url_for('dashboard') }}" class="back-btn"><i class="fa-solid fa-arrow-left"></i></a>
+        <h2 style="color: #e74c3c;"><i class="fa-solid fa-user-tie"></i> Coach Recommendation AI</h2>
+    </div>
+
+    <!-- The Form -->
+    <div class="form-panel" id="coachFormPanel">
+        <form id="coachForm">
+            <div class="form-grid">
+                <div class="input-group">
+                    <label>Preferred Formation</label>
+                    <input type="text" name="formation" placeholder="e.g. 4-3-3 or 3-5-2" required>
+                </div>
+
+                <div class="input-group">
+                    <label>Tactical Philosophy</label>
+                    <select name="philosophy" required>
+                        <option value="">Select Philosophy</option>
+                        <option value="Attacking">Attacking</option>
+                        <option value="Defensive">Defensive</option>
+                        <option value="Possession">Possession / Tiki-Taka</option>
+                        <option value="Counter-Attack">Counter-Attack</option>
+                        <option value="Gegenpressing">Gegenpressing</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label>Team Level</label>
+                    <select name="level" required>
+                        <option value="">Select Level</option>
+                        <option value="Youth">Youth / Academy</option>
+                        <option value="Professional">Professional</option>
+                        <option value="Elite">Elite / Champions League</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label>Experience (Years)</label>
+                    <input type="text" name="exp_range" placeholder="e.g. 5-15" required>
+                </div>
+
+                <div class="input-group" style="grid-column: 1 / -1;">
+                    <label>Available Budget</label>
+                    <input type="text" name="budget" placeholder="e.g. $2,000,000 or 5M" required>
+                </div>
+            </div>
+
+            <div id="formError" class="message-box message-error hidden"></div>
+
+            <button type="submit" class="btn btn-primary btn-large mt-4" id="submitBtn"
+                style="background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);">
+                <i class="fa-solid fa-brain"></i> Generate AI Target List
+            </button>
+        </form>
+    </div>
+
+    <!-- Loading State -->
+    <div id="loadingPanel" class="loading-panel hidden">
+        <div class="spinner" style="border-top-color: #e74c3c"></div>
+        <h3>Google Gemini is analyzing managerial records...</h3>
+        <p>Evaluating philosophies, trophy history, and budget compatibility.</p>
+    </div>
+
+    <!-- Results Panel -->
+    <div id="resultsPanel" class="results-panel hidden">
+        <div class="results-header">
+            <h3 style="color: #e74c3c;"><i class="fa-solid fa-clipboard-list"></i> AI Top 5 Managerial Targets</h3>
+            <button class="btn btn-outline btn-small" onclick="resetForm('coachFormPanel', 'resultsPanel')">New
+                Search</button>
+        </div>
+
+        <div id="aiCandidates" class="candidates-grid">
+            <!-- Populated by JS -->
+        </div>
+    </div>
+</div>
+
+<!-- Template for coach card -->
+<template id="coachCardTemplate">
+    <div class="candidate-card fade-in" style="border-top: 3px solid #e74c3c;">
+        <div class="card-header">
+            <div class="rank-badge" style="background: rgba(231, 76, 60, 0.2); color: #e74c3c;">#<span
+                    class="rank-num">1</span></div>
+            <div class="score-ring">
+                <svg>
+                    <circle cx="25" cy="25" r="20"></circle>
+                    <circle class="score-circle" cx="25" cy="25" r="20" style="stroke: #e74c3c;"></circle>
+                </svg>
+                <div class="score-num text-white">85</div>
+            </div>
+        </div>
+        <div class="card-profile">
+            <img src="{{ url_for('static', filename='img/default_coach.png') }}" alt="Profile"
+                class="profile-img coach-img"
+                onerror="this.src='https://ui-avatars.com/api/?name=Coach&background=random'">
+            <h4 class="cand-name">Manager Name</h4>
+            <span class="cand-club"><i class="fa-solid fa-store"></i> <span>Club Name</span></span>
+        </div>
+        <div class="card-stats">
+            <div class="stat"><span class="label">Exp (Yrs)</span><span class="value cand-exp">0</span></div>
+            <div class="stat"><span class="label">Salary</span><span class="value cand-salary">$0</span></div>
+        </div>
+        <div class="card-analysis">
+            <h5 style="color: #e74c3c;"><i class="fa-solid fa-chess-board"></i> Tactical Analysis</h5>
+            <p class="cand-perf">Tactics text.</p>
+        </div>
+        <div class="card-justification">
+            <h5><i class="fa-solid fa-building-user"></i> Director Note</h5>
+            <p class="cand-just">Director text.</p>
+        </div>
+    </div>
+</template>
+{% endblock %}

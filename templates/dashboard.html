@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Football Scouting System{% endblock %}
+
+{% block content %}
+<div class="dashboard-wrapper">
+    <div class="dashboard-header fade-in">
+        <h1>Welcome, <span>{{ session.get('user') }}</span></h1>
+        <p>Select an AI scouting module to begin analysis</p>
+    </div>
+
+    <div class="module-grid">
+        <!-- Player Module -->
+        <a href="{{ url_for('player_recommendation') }}" class="module-card fade-in" style="animation-delay: 0.1s;">
+            <div class="module-icon pulse">
+                <i class="fa-solid fa-users"></i>
+            </div>
+            <div class="module-content">
+                <h3>Player Recommendation</h3>
+                <p>Find top active players worldwide based on position, style, age, and experience using AI data
+                    aggregation.</p>
+            </div>
+            <div class="module-action">
+                <span>Launch Core Analytics <i class="fa-solid fa-chevron-right"></i></span>
+            </div>
+        </a>
+
+        <!-- Coach Module -->
+        <a href="{{ url_for('coach_recommendation') }}" class="module-card fade-in" style="animation-delay: 0.2s;">
+            <div class="module-icon pulse" style="background: rgba(231, 76, 60, 0.1); color: #e74c3c;">
+                <i class="fa-solid fa-user-tie"></i>
+            </div>
+            <div class="module-content">
+                <h3>Coach Recommendation</h3>
+                <p>Discover leading head coaches based on tactical philosophy, preferred formation, and available
+                    budget.</p>
+            </div>
+            <div class="module-action">
+                <span style="color: #e74c3c;">Launch Core Analytics <i class="fa-solid fa-chevron-right"></i></span>
+            </div>
+        </a>
+
+        <!-- New Player Module -->
+        <a href="{{ url_for('new_player') }}" class="module-card fade-in" style="animation-delay: 0.3s;">
+            <div class="module-icon pulse" style="background: rgba(46, 204, 113, 0.1); color: #2ecc71;">
+                <i class="fa-solid fa-user-plus"></i>
+            </div>
+            <div class="module-content">
+                <h3>Register Player</h3>
+                <p>Add completely new players to the local scouting database with profile pictures and match action
+                    shots.</p>
+            </div>
+            <div class="module-action">
+                <span style="color: #2ecc71;">Open Registration Desk <i class="fa-solid fa-chevron-right"></i></span>
+            </div>
+        </a>
+    </div>
+</div>
+{% endblock %}
